@@ -7,6 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+torch = "^2.3.1"
+torchvision = "^0.18.1"
+nltk = "^3.8.1"
+pycocotools = "^2.0.7"
 
 
 [build-system]
