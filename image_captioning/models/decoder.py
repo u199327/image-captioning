@@ -12,7 +12,7 @@ class Decoder(nn.Module):
     """
     # TO BE DELETED: max_seq_length, stateful
     def __init__(self, embed_size, hidden_size, vocab_size, num_layers=1, max_seq_length=20, stateful=True):
-        super(Decoder, self).__init__()
+        super().__init__()
         self.num_layers = num_layers
         self.embed = nn.Embedding(vocab_size, embed_size)
         self.lstm = nn.LSTM(embed_size, hidden_size, num_layers, batch_first=True)

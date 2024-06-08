@@ -13,7 +13,7 @@ class Encoder(nn.Module):
     """
     # TO BE DELETED: attention, encoded_image_size
     def __init__(self, attention=False, embed_size=256, encoded_image_size=14):
-        super(Encoder, self).__init__()
+        super().__init__()
         # Load the pretrained CNN ResNet152
         self.resnet = models.resnet152(pretrained=True)
         # Fix the weights of the CNN so they are not upadated during the training

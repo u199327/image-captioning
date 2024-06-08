@@ -50,22 +50,3 @@ class CocoDataset(Dataset):
 
     def __len__(self):
         return len(self.keys)
-
-    def showImg(self, idx):
-        '''
-        Return a PIL Image
-        '''
-        annotation_id = self.keys[idx]
-        image_id = self.coco.anns[annotation_id]['image_id']
-        caption = self.coco.anns[annotation_id]['caption']
-        img_file_name = self.coco.loadImgs(image_id)[0]['file_name']
-        assert img_file_name.split('.')[-1] == 'jpg'
-
-        image = Image.open(os.path.join(self.image_dir, img_file_name)).convert('RGB')
-
-        tokens = nltk.tokenize.word_tokenize(str(caption).lower())
-        caption = []
-        caption = [self.vocab('<<start>>'), *[self.vocab(x) for x in tokens], self.vocab('<<end>>')]
-
-        target = torch.Tensor(caption)
-        return image, caption
