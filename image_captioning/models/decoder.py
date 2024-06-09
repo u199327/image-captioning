@@ -17,7 +17,7 @@ class Decoder(nn.Module):
         self.embed = nn.Embedding(vocab_size, embed_size)
         self.lstm = nn.LSTM(embed_size, hidden_size, num_layers, batch_first=True)
         self.linear = nn.Linear(hidden_size, vocab_size)
-        self.max_seg_length = max_seq_length
+        self.max_seg_length = 20
 
     # TO BE DELETED: train
     def forward(self, features, captions, lengths, train=True):
