@@ -5,5 +5,6 @@ from .models import (
 )
 from .utils import (
     resize_and_normalize_image,
-    Vocabulary
+    Vocabulary,
+    CocoDataset
 )

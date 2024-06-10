@@ -12,7 +12,7 @@ class Encoder(nn.Module):
         feature representation of the images.
     """
     # TO BE DELETED: attention, encoded_image_size
-    def __init__(self, attention=False, embed_size=256, encoded_image_size=14):
+    def __init__(self, embed_size=256):
         super().__init__()
         # Load the pretrained CNN ResNet152
         self.resnet = models.resnet152(weights='DEFAULT')

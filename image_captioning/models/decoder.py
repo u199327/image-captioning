@@ -17,10 +17,10 @@ class Decoder(nn.Module):
         self.embed = nn.Embedding(vocab_size, embed_size)
         self.lstm = nn.LSTM(embed_size, hidden_size, num_layers, batch_first=True)
         self.linear = nn.Linear(hidden_size, vocab_size)
-        self.max_seg_length = 20
+        self.max_seq_length = max_seq_length
 
     # TO BE DELETED: train
-    def forward(self, features, captions, lengths, train=True):
+    def forward(self, features, captions, lengths):
         """
         Forward propagation.
         @param
@@ -55,7 +55,7 @@ class Decoder(nn.Module):
         # Beam search initialization. Notice that we manually handle the hidden and cell states
         sequences = [[[], 0.0, inputs, states]]
 
-        for _ in range(self.max_seg_length):
+        for _ in range(self.max_seq_length):
             all_candidates = []
             # Iterate over the candidate sequences
             for seq, score, inputs, states in sequences:

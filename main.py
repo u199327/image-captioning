@@ -36,7 +36,7 @@ if __name__ == '__main__':
     encoder_path = 'checkpoints/encoder.ckpt'
     decoder_path = 'checkpoints/decoder.ckpt'
 
-    vocab_path = 'data/vocab.pkl'
+    vocab_path = 'assets/vocab.pkl'
 
     embed_size = 512
     hidden_size = 512
