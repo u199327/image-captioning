@@ -40,10 +40,9 @@ class CocoDataset(Dataset):
 
         image = Image.open(os.path.join(self.image_dir, img_file_name)).convert('RGB')
         image = self.transform(image)
-
-
+        # Convert the caption to a lowercase string and tokenize it into words and punctuation
         tokens = nltk.tokenize.word_tokenize(str(caption).lower())
-        # append start and end
+        # Include the <<start>> and <<end>> tokens for denoting the start and end of the caption
         caption = [self.vocab('<<start>>'), *[self.vocab(x) for x in tokens], self.vocab('<<end>>')]
         caption = torch.Tensor(caption)
         return image, caption

@@ -11,6 +11,7 @@ torch = "^2.3.1"
 torchvision = "^0.18.1"
 nltk = "^3.8.1"
 pycocotools = "^2.0.7"
+matplotlib = "^3.9.0"
 
 
 [build-system]

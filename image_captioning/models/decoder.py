@@ -11,7 +11,7 @@ class Decoder(nn.Module):
         Use a vanilla one-to many LSTM architecture for generating the captions from the image features.
     """
     # TO BE DELETED: max_seq_length, stateful
-    def __init__(self, embed_size, hidden_size, vocab_size, num_layers=1, max_seq_length=20, stateful=True):
+    def __init__(self, embed_size, hidden_size, vocab_size, num_layers=1, max_seq_length=20):
         super().__init__()
         self.num_layers = num_layers
         self.embed = nn.Embedding(vocab_size, embed_size)

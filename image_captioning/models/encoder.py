@@ -15,8 +15,8 @@ class Encoder(nn.Module):
     def __init__(self, attention=False, embed_size=256, encoded_image_size=14):
         super().__init__()
         # Load the pretrained CNN ResNet152
-        self.resnet = models.resnet152(pretrained=True)
-        # Fix the weights of the CNN so they are not upadated during the training
+        self.resnet = models.resnet152(weights='DEFAULT')
+        # Fix the weights of the CNN, so they are not updated during the training
         for param in self.resnet.parameters():
             param.requires_grad = False
         # Reinitialize the last fully connected layer of the CNN, and set the output dimension to the size of the words embedding

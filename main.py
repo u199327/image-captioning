@@ -1,22 +1,16 @@
 import torch
-import torchvision.transforms as transforms
 import os
 import sys
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-#wimport nltk
 #from torch.utils.data import Dataset, DataLoader
 from PIL import Image
-#from generate_vocab_dict import Vocabulary
 #from data_loader import CocoDataset, coco_batch
 
-from pycocotools.coco import COCO
 import argparse
-# from model_V2_dropout0 import Encoder, Decoder
-from torch.nn.utils.rnn import pack_padded_sequence
-import torch.nn as nn
+
 
 from image_captioning import NIC
 from image_captioning import Encoder
@@ -57,20 +51,21 @@ if __name__ == '__main__':
     with open(vocab_path, 'rb') as f:
         vocab = pickle.load(f)
 
+    # Create the encoder and decoder instances and set them to evaluation mode
     encoder = Encoder(embed_size=embed_size).eval()
-    decoder = Decoder(stateful=False, embed_size=embed_size, hidden_size=hidden_size, vocab_size=len(vocab), num_layers=num_layers).eval()
+    decoder = Decoder(embed_size=embed_size, hidden_size=hidden_size, vocab_size=len(vocab), num_layers=num_layers).eval()
+    # Load the precomputed parameters
+    encoder.load_state_dict(torch.load(encoder_path))
+    decoder.load_state_dict(torch.load(decoder_path))
+    # Move the model instances to the device
     encoder = encoder.to(device)
     decoder = decoder.to(device)
 
-    # load the trained model parameters
-    encoder.load_state_dict(torch.load(encoder_path))
-    decoder.load_state_dict(torch.load(decoder_path))
-
-    # Load, transform, and move the image to the GPU
+    # Load and transform the image so it matches the COCO dataset specifications
     img = Image.open(image_path)
     adjusted_img = resize_and_normalize_image(img, width_image_net, height_image_net, mean_image_net, std_image_net)
+    # Move the image to the device
     image_tensor = adjusted_img .to(device)
-
 
     # Generate a caption from the image
     feature = encoder(image_tensor)
@@ -79,18 +74,20 @@ if __name__ == '__main__':
 
     sampled_caption = []
     for word_id in sampled_ids:
-      word = vocab.idx2word[word_id]
-      sampled_caption.append(word)
-      if word == '<<end>>':
-        break
+        word = vocab.to_word(word_id)
+        sampled_caption.append(word)
+        if word == '<<end>>':
+            break
+
+    sampled_caption = [word for word in sampled_caption if word not in ['<<start>>','<<end>>']]
     sentence = ' '.join(sampled_caption)
-
-    # Print out the image and the generated caption
-    print(sentence)
-    print(sampled_caption)
     image = Image.open(image_path)
-
+    plt.figure(figsize=(12, 8))
+    plt.text(0.5, 0, sentence, fontsize=12, fontweight='bold')
     plt.imshow(np.asarray(image))
+    plt.axis('off')  # Turn off axis for pure text display
+    plt.show()
+    plt.show()
 
 
 
