@@ -27,7 +27,6 @@ class CocoDataset(Dataset):
         self.vocab = vocab
         self.transform = transform
 
-
     def __getitem__(self, idx):
         '''
         Private function return one sample, image, caption
@@ -43,7 +42,7 @@ class CocoDataset(Dataset):
         # Convert the caption to a lowercase string and tokenize it into words and punctuation
         tokens = nltk.tokenize.word_tokenize(str(caption).lower())
         # Include the <<start>> and <<end>> tokens for denoting the start and end of the caption
-        caption = [self.vocab('<<start>>'), *[self.vocab(x) for x in tokens], self.vocab('<<end>>')]
+        caption = [self.vocab.to_idx('<<start>>'), *[self.vocab.to_idx(x) for x in tokens], self.vocab.to_idx('<<end>>')]
         caption = torch.Tensor(caption)
         return image, caption
 

@@ -67,8 +67,6 @@ def main(args):
     save_step = 30
     max_seq_length = 20
 
-    encoder_path = args.encoder_path
-    decoder_path = args.decoder_path
     start_epoch = 0
 
     if not os.path.exists(model_path):
@@ -103,7 +101,6 @@ def main(args):
             images = images.to(device)
             captions = captions.to(device)
             targets = pack_padded_sequence(captions, lengths, batch_first=True)[0]
-
             outputs = nic(images, captions, lengths)
             """
             features = encoder(images)

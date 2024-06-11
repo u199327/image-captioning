@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
-import torchvision.models as models
 from torch.nn.utils.rnn import pack_padded_sequence
-from torch.autograd import Variable
 
 
 class Decoder(nn.Module):
@@ -10,7 +8,6 @@ class Decoder(nn.Module):
     Decoder:
         Use a vanilla one-to many LSTM architecture for generating the captions from the image features.
     """
-    # TO BE DELETED: max_seq_length, stateful
     def __init__(self, embed_size, hidden_size, vocab_size, num_layers=1, max_seq_length=20):
         super().__init__()
         self.num_layers = num_layers
@@ -37,7 +34,7 @@ class Decoder(nn.Module):
         embeddings = torch.cat((features.unsqueeze(1), embeddings), 1)
         # Use the lengths tensor to correctly handle padded tensors
         packed = pack_padded_sequence(embeddings, lengths, batch_first=True)
-        hiddens, _ = self.lstm(embeddings)
+        hiddens, _ = self.lstm(packed)
         outputs = self.linear(hiddens[0])
 
         return outputs

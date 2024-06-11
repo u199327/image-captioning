@@ -1,8 +1,5 @@
-import torch
 import torch.nn as nn
 import torchvision.models as models
-from torch.nn.utils.rnn import pack_padded_sequence
-from torch.autograd import Variable
 
 
 class Encoder(nn.Module):
@@ -11,7 +8,6 @@ class Encoder(nn.Module):
         Use the pretrained ResNet152 Convolutional Neural Network and retrain the last fully connected layer to obtain the
         feature representation of the images.
     """
-    # TO BE DELETED: attention, encoded_image_size
     def __init__(self, embed_size=256):
         super().__init__()
         # Load the pretrained CNN ResNet152

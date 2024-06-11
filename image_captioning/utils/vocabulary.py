@@ -27,6 +27,8 @@ class Vocabulary(object):
             self.idx += 1
 
     def to_idx(self, word):
+        if word not in self.word_to_idx:
+            return self.word_to_idx['<<unknown>>']
         return self.word_to_idx[word]
 
     def to_word(self, idx):
