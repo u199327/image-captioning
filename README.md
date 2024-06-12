@@ -31,7 +31,7 @@ mkdir model
 ```bash
 mkdir data
 ```
-- Install the dependecies running poetry install in the project root directory
+- Install the dependecies running poetry install in the project root directory. This might take a few minutes.
 ```bash
 poetry install
 ```
