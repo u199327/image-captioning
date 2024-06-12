@@ -20,7 +20,7 @@ class NIC(nn.Module):
         caption_ids = self.decoder(image_features, captions, lengths)
         return caption_ids
 
-    def generate_caption(self, images, states=None, beam_width=20):
+    def generate_caption(self, images, states=None, beam_width=1):
         features = self.encoder(images)
         sampled_ids = self.decoder.sample(features, states, beam_width)
         return sampled_ids
