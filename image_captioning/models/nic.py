@@ -3,12 +3,13 @@ import torch.nn as nn
 from .encoder import Encoder
 from .decoder import Decoder
 
-'''
-Implementation of the Neural Image Caption (NIC) defined in the paper "Show and Tell: A Neural Image Caption Generator"
-'''
-
 
 class NIC(nn.Module):
+    """
+    Implementation of the Neural Image Caption (NIC) defined in the paper "Show and Tell: A Neural Image Caption Generator"
+    Wrapper of the encoder and decoder classes.
+    """
+
     def __init__(self, hidden_size, vocab_size, embed_size=256,  num_layers=1, max_seq_length=20):
         super().__init__()
         self.encoder = Encoder(embed_size)

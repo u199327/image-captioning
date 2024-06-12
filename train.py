@@ -4,38 +4,15 @@ import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence
 import torchvision.transforms as transforms
-from torch.utils.data import  DataLoader
+from torch.utils.data import DataLoader
 import pickle
 import numpy as np
 import logging
 
 from image_captioning import NIC
 from image_captioning import Vocabulary
-from image_captioning import CocoDataset
+from image_captioning import CocoDataset, coco_batch
 
-
-def coco_batch(coco_data):
-    '''
-    Create mini_batch tensors from the list of tuples, this is to match the output of __getitem__()
-    coco_data: list of tuples of length 2:
-        coco_data[0]: image, shape of (3, 256, 256)
-        coco_data[1]: caption, shape of length of the caption;
-    '''
-    coco_data.sort(key=lambda x: len(x[1]), reverse=True)
-    images, captions = zip(*coco_data)
-
-    images = torch.stack(images, 0)
-
-    cap_length = [len(cap) for cap in captions]
-    seq_length = max(cap_length)
-    if max(cap_length) > 100:
-        seq_length = 100
-    targets = torch.LongTensor(np.zeros((len(captions), seq_length)))
-    for i, cap in enumerate(captions):
-        length = cap_length[i]
-        targets[i, :length] = cap[:length]
-
-    return images, targets, cap_length
 
 def main(args):
     logging.basicConfig(level=logging.INFO)
@@ -61,7 +38,7 @@ def main(args):
 
     embed_size = 512
     hidden_size = 512
-    num_layers = 2
+    num_layers = 5
     num_epochs = args.num_epochs
     log_step = 10
     save_step = 300
@@ -86,12 +63,7 @@ def main(args):
 
     nic = NIC(hidden_size, len(vocab), embed_size, num_layers, max_seq_length).to(device)
     nic.train()
-    """
-    encoder = Encoder(embed_size=embed_size).to(device)
-    decoder = Decoder(embed_size=embed_size, hidden_size=hidden_size, vocab_size=len(vocab), num_layers=num_layers).to(device)
-    encoder.train()
-    decoder.train()
-    """
+
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(nic.get_parameters(), lr=learning_rate)
 
@@ -102,12 +74,7 @@ def main(args):
             captions = captions.to(device)
             targets = pack_padded_sequence(captions, lengths, batch_first=True)[0]
             outputs = nic(images, captions, lengths)
-            """
-            features = encoder(images)
-            outputs = decoder(features, captions, lengths)
-            decoder.zero_grad()
-            encoder.zero_grad()
-            """
+
             nic.zero_grad()
             loss = criterion(outputs, targets)
             loss.backward(retain_graph=True)

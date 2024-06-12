@@ -12,7 +12,6 @@ from image_captioning import IMAGENET_IMAGE_SIZE, IMAGENET_IMAGE_MEAN, IMAGENET_
 from config import NUM_LAYERS, HIDDEN_SIZE, EMBED_SIZE, NIC_PATH, VOCAB_PATH
 
 
-# TO BE DELETED: In generation phase, we need should random crop, just resize
 
 
 if __name__ == '__main__':

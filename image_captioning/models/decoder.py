@@ -16,21 +16,11 @@ class Decoder(nn.Module):
         self.linear = nn.Linear(hidden_size, vocab_size)
         self.max_seq_length = max_seq_length
 
-    # TO BE DELETED: train
     def forward(self, features, captions, lengths):
-        """
-        Forward propagation.
-        @param
-            features: Tensor of dimensions (batch_size, embed_size) representing the feature vectors of the input images
-            captions: ?
-            lengths: ?
-            train: ?
-        return:
-            ???: ???
-        """
-        # TO BE REVIEWED: Embedding of the tokenized? captions
         embeddings = self.embed(captions)
         # Concatenate the features tensor obtained from the CNN with the embeddings of the captions
+        # Each sequence consists then of [image-features, <<start>>, word1, word2, ... , wordN, <<end>>]
+        # Where words are indexed as numbers defined in a vocabulary
         embeddings = torch.cat((features.unsqueeze(1), embeddings), 1)
         # Use the lengths tensor to correctly handle padded tensors
         packed = pack_padded_sequence(embeddings, lengths, batch_first=True)
