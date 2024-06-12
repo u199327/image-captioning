@@ -39,7 +39,7 @@ class Decoder(nn.Module):
 
         return outputs
 
-    def sample(self, features, states=None, beam_width=20):
+    def sample(self, features, states=None, beam_width=1):
         """
         Sampling function that generates the beam search approximation for the sequence S that maximizes the probability P(S|I), where I is the input image.
         @param

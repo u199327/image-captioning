@@ -6,5 +6,8 @@ from .models import (
 from .utils import (
     resize_and_normalize_image,
     Vocabulary,
-    CocoDataset
+    CocoDataset,
+    IMAGENET_IMAGE_SIZE,
+    IMAGENET_IMAGE_MEAN,
+    IMAGENET_IMAGE_STD,
 )

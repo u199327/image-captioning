@@ -19,5 +19,10 @@ class NIC(nn.Module):
         caption_ids = self.decoder(image_features, captions, lengths)
         return caption_ids
 
+    def generate_caption(self, images, states=None, beam_width=20):
+        features = self.encoder(images)
+        sampled_ids = self.decoder.sample(features, states, beam_width)
+        return sampled_ids
+
     def get_parameters(self):
         return list(self.decoder.parameters()) + list(self.encoder.resnet.fc.parameters())

@@ -61,10 +61,10 @@ def main(args):
 
     embed_size = 512
     hidden_size = 512
-    num_layers = 1
+    num_layers = 2
     num_epochs = args.num_epochs
     log_step = 10
-    save_step = 30
+    save_step = 300
     max_seq_length = 20
 
     start_epoch = 0
