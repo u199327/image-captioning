@@ -3,7 +3,7 @@
 ### Authors:
 - Iván Hernández, [[iv97n]](https://github.com/iv97n)
 - Marcel Fernández, [[marcel_gamer]](https://github.com/u198734)
-- Alejandro Pastor, [[alejandro_el_picanton]](https://github.com/u199327)
+- Alejandro Pastor, [[alejandro]](https://github.com/u199327)
 
 Dataset: [COCO Dataset, Image Captioning 2014](https://cocodataset.org/#home)  
 
